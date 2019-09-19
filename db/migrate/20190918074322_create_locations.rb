@@ -1,13 +1,12 @@
 class CreateLocations < ActiveRecord::Migration[5.2]
   def change
     create_table :location, :primary_key => :location_id do |t|
-      t.string      :name, null: false
+      t.string      :name, null: false, uniq: true
       t.string      :code, uniq: true
       t.bigint      :location_type_id, null: false
       t.float       :latitude
       t.float       :longitude
-      t.integer     :location_parent
-      t.datetime    :date_created, null: false
+      t.integer     :parent_location
       t.boolean     :retired, null: false, default: 0
       t.datetime    :retire_date
 

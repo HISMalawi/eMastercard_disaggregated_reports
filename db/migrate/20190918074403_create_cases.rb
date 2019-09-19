@@ -14,6 +14,8 @@ class CreateCases < ActiveRecord::Migration[5.2]
     column: :case_type_id, primary_key: :case_type_id
     add_foreign_key :cases, :location, 
     column: :location_id, primary_key: :location_id
+    execute "ALTER TABLE `cases` CHANGE `created_at` `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP"
+    execute "ALTER TABLE `cases` CHANGE `updated_at` `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP"
   end
 
   def down
