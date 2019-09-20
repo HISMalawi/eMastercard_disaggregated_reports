@@ -110,13 +110,17 @@ def process_file(report_name, file_name, district, facility, encounter_datetime)
 end
 
 def create_case(report_name, facility, case_type, encounter_datetime)
-  reported_case = Case.find_by(location_id: facility.id, 
-    case_type_id: case_type.id,
-      case_reported_datetime: encounter_datetime)
+  reporting_timeline = ReportingTimeline.find_by(report_name: report_name,
+    location_id: facility.id, report_datetime: encounter_datetime)
+
+  reporting_timeline = ReportingTimeline.create(report_name: report_name,
+    location_id: facility.id, report_datetime: encounter_datetime) if reporting_timeline.blank?
+
+  reported_case = Case.find_by(timeline_id: reporting_timeline.id,
+    case_type_id: case_type.id) 
   
-  reported_case = Case.create(location_id: facility.id, 
-    case_type_id: case_type.id, description: report_name,
-      case_reported_datetime: encounter_datetime) if reported_case.blank?
+  reported_case = Case.create(timeline_id: reporting_timeline.id, 
+    case_type_id: case_type.id) if reported_case.blank?
 
   return reported_case
 end
