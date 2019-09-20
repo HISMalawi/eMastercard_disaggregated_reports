@@ -1,9 +1,10 @@
 class CreateCases < ActiveRecord::Migration[5.2]
   def change
     create_table :cases, :primary_key => :case_id  do |t|
-      t.bigint     :case_type_id, null: false
-      t.bigint     :location_id, null: false
-      t.datetime   :case_reported_datetime, null: false
+      t.bigint    :case_type_id, null: false
+      t.bigint    :location_id, null: false
+      t.datetime  :case_reported_datetime, null: false
+      t.string    :description, null: false
 
       t.timestamps
     end
